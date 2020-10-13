@@ -27,7 +27,8 @@ def compressImage(img, rows=None, cols=None):
         else:
             rows = max_chars
             cols = int(rows * ratio)
-        rows = int(rows * 0.55) # 45% of the row height removed because it is greater than the width of a character
+        # 45% of the row height removed because it is greater than the width of a character
+        rows = int(rows * 0.55)
 
     print(f'Cols: {cols}')
     print(f'Rows: {rows}')
@@ -44,7 +45,8 @@ def compressImage(img, rows=None, cols=None):
                 img[int(i * cell_height):min(int((i + 1) * cell_height), height),
                     int(j * cell_width):min(int((j + 1) * cell_width), width)]
             )
-            row_ascii_array.append(grey_scale_to_ascii(grey=grey_mean, advanced=False))
+            row_ascii_array.append(grey_scale_to_ascii(
+                grey=grey_mean, advanced=False))
 
         ascii_array.append(row_ascii_array)
 
@@ -70,26 +72,13 @@ def ascii_array_to_string(ascii_array):
     return result
 
 
-def saveImage(filename, img):
-    # Convert NumPy array back to Pillow image
-    img = Image.fromarray(img)
-
-    # Save image with Pillow
-    img.save(filename)
-
-    return True
-
-
 def main():
     path = input("Image path: ")
     img = openImage(filename=path)
 
     ascii_array = compressImage(img=img)
 
-    # ascii_array_to_string(ascii_array)
     print(ascii_array_to_string(ascii_array))
-
-    # saveImage(filename="tmp.jpg", img=img)
 
 
 if __name__ == '__main__':
